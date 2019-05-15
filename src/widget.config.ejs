@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.custom.<%= NAME %>" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name><%= FRIENDLY_NAME %></name>
+    <description><%= WIDGET_DESC %></description>
+    <icon></icon>
+    <properties>
+
+        <!--####### Nodes tab #######-->
+        <property key="nodeEntity" type="entity" isPath="no" required="true">
+            <caption>Node*</caption>
+            <category>Nodes</category>
+            <description>Select the entity you want to use for your nodes</description>
+        </property>
+
+        <property key="nodeLabel" type="attribute" entityProperty="nodeEntity"  required="false">
+            <caption>Node label</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as label for your nodes. Default value: "".</description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <property key="nodeShape" type="attribute" entityProperty="nodeEntity" required="false">
+            <caption>Node shape</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as shape for your nodes. Supported shapes are: circle, square, box, ellipse, star, diamond, database, triangle. Default value: circle</description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <property key="nodeColor" type="attribute" entityProperty="nodeEntity" required="false">
+            <caption>Node color</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as color for your nodes. Hexadecimal color notation should be used with the "#" replaced by a "_". Default value: _6F9FD8  </description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <property key="nodeFontColor" type="attribute" entityProperty="nodeEntity" required="false">
+            <caption>Node font color</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as font color for your nodes. Default value: black.</description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <property key="nodeFontSize" type="attribute" entityProperty="nodeEntity" required="false">
+                <caption>Node font size</caption>
+                <category>Nodes</category>
+                <description>Select the attribute you want to use as the font size for your nodes. Default value: 15.</description>
+                <attributeTypes>
+                  <attributeType name="Integer" />
+                </attributeTypes>
+        </property>
+
+        <property key="nodeMass" type="attribute" entityProperty="nodeEntity" required="false">
+            <caption>Node mass</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as the mass for your nodes. Default value: 1.</description>
+            <attributeTypes>
+              <attributeType name="Integer" />
+            </attributeTypes>
+        </property>
+
+        <property key="nodeBorderWidth" type="attribute" entityProperty="nodeEntity" required="false">
+            <caption>Node border width</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as the border width for your nodes. Default value: 1.</description>
+            <attributeTypes>
+              <attributeType name="Integer" />
+            </attributeTypes>
+        </property>
+
+
+        <!--####### Edges tab #######-->
+        <property key="edgeEntity" type="entity" isPath="no" required="true">
+            <caption>Edge*</caption>
+            <category>Edges</category>
+            <description>Select the entity you want to use for your edges</description>
+        </property>
+
+        <property key="edgeAssociationFrom" type="entityConstraint" entityProperty='edgeEntity' required="true">
+            <caption>From association*</caption>
+            <category>Edges</category>
+            <description>Select the association specifying the origin of the tail of the edge. Example: [MyFirstModule.from/MyFirstModule.Node] </description>
+        </property>
+
+        <property key="edgeAssociationTo" type="entityConstraint" entityProperty='edgeEntity' required="true">
+            <caption>To association*</caption>
+            <category>Edges</category>
+            <description>Select the association specifying the target of the edge. Example: [MyFirstModule.to/MyFirstModule.Node] </description>
+        </property>
+
+        <property key="edgeLabel" type="attribute" entityProperty="edgeEntity" required="false">
+            <caption>Edge label</caption>
+            <category>Edges</category>
+            <description>Select the attribute you want to use as the label for your edge. Default value: ""</description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <property key="edgeLength" type="attribute" entityProperty="edgeEntity" required="false">
+            <caption>Edge length</caption>
+            <category>Edges</category>
+            <description>Select the attribute you want to use as the length for your edge. Default value: "150"</description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Integer" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <property key="edgeTypeTo" type="attribute" entityProperty="edgeEntity" required="false">
+            <caption>Edge type to</caption>
+            <category>Edges</category>
+            <description>Select the attribute you want to use as the shape on the head of your edge. Supported shapes: arrow, bar, circle. Default value: arrow</description>
+            <attributeTypes>
+              <attributeType name="String" />
+              <attributeType name="Enum" />
+            </attributeTypes>
+        </property>
+
+        <!--####### Configuration tab #######-->
+        <property key="width" type="integer" defaultValue="1000" required="true">
+                <caption>Width</caption>
+                <category>Configuration</category>
+                <description>Select the width of the widget.</description>
+        </property>
+
+        <property key="height" type="integer" defaultValue="1000" required="true">
+                <caption>Heigth</caption>
+                <category>Configuration</category>
+                <description>Select the height of the widget.</description>
+        </property>
+
+
+    </properties>
+</widget>

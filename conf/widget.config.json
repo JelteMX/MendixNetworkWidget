@@ -1,0 +1,5 @@
+{
+  "name": "VisJsWidget",
+  "friendlyName": "VisJsWidget",
+  "description": "A custom widget to create vis.js network diagrams"
+}

@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Counter Component Test Unit should render correctly 1`] = `
+<div
+  className="react-counter undefined"
+>
+  <div
+    className="counter-header"
+  >
+    <span>
+      •••
+    </span>
+    <h1>
+      SOME_DUMMY_KEY
+    </h1>
+    <span>
+      •••
+    </span>
+  </div>
+  <h1
+    className="counter-count"
+  >
+    0
+  </h1>
+  <div
+    className="controls-wrapper"
+  >
+    <button
+      className="counter-btn"
+      onClick={[Function]}
+    >
+      -
+    </button>
+    <button
+      className="counter-btn"
+      onClick={[Function]}
+    >
+      +
+    </button>
+  </div>
+</div>
+`;
