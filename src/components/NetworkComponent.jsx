@@ -43,14 +43,15 @@ class NetworkComponent extends Component {
         width: "" + this.props.width,
         height: "" + this.props.height,
         physics: {
+          enabled: true,
+          minVelocity: 0.75,
             stabilization: {
                 enabled: true,
-                iterations: 10, // maximum number of iteration to stabilize
+                iterations: 1000, // maximum number of iteration to stabilize
                 updateInterval: 10,
                 onlyDynamicEdges: false,
                 fit: true
             },
-            minVelocity: 0.75,
             solver: "repulsion",
             repulsion: {
                 centralGravity : 0  
@@ -68,6 +69,9 @@ class NetworkComponent extends Component {
             var nodeFontSizeVar; //default 15
             var nodeMassVar; //default 1
             var nodeBorderWidthVar; //default 1
+            var nodeImage;
+
+            console.log(node.jsonData);
 
             //Setting default values in case the user did not select an attribute
             if(this.props.nodeLabel === "")         { nodeLabelVar = ""; }
@@ -84,6 +88,24 @@ class NetworkComponent extends Component {
             else                                    { nodeMassVar = node.jsonData.attributes[this.props.nodeMass].value; }
             if(this.props.nodeBorderWidth === "")   { nodeBorderWidthVar = 1; }
             else                                    { nodeBorderWidthVar = node.jsonData.attributes[this.props.nodeBorderWidth].value; }
+            if(this.props.nodeImage === "")         { nodeImage = ''; }
+            else                                    { nodeImage = node.jsonData.attributes[this.props.nodeImage].value; }
+
+            console.log({
+              id : node.jsonData.guid, 
+              label : nodeLabelVar,  
+              shape: nodeShapeVar,
+              color: "#" + nodeColorVar.slice(1) ,
+              font: {
+                  color: nodeFontColorVar,
+                  size: nodeFontSizeVar  
+              },
+              size: nodeFontSizeVar,
+              mass: nodeMassVar,
+              borderWidth: nodeBorderWidthVar,
+              image: nodeImage,
+           }  );
+
 
             return {
                id : node.jsonData.guid, 
@@ -96,8 +118,9 @@ class NetworkComponent extends Component {
                },
                size: nodeFontSizeVar,
                mass: nodeMassVar,
-               borderWidth: nodeBorderWidthVar
-            }        
+               borderWidth: nodeBorderWidthVar,
+               image: nodeImage,
+            }      
        });
 
         const dataEdges = this.state.edges.map((edge, index) =>{            //still needs to be refactored
@@ -126,6 +149,10 @@ class NetworkComponent extends Component {
             }
         });
         this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
+
+        // this.network.on("stabilizationIterationsDone", function () {
+        //   network.setOptions( { physics: false } );
+      // });
     }
   }
 

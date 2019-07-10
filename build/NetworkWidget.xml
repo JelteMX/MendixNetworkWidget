@@ -71,20 +71,26 @@
         </property>
 
         <property key="nodeBorderWidth" type="attribute" entityProperty="nodeEntity" required="false">
-            <caption>Node border width</caption>
-            <category>Nodes</category>
-            <description>Select the attribute you want to use as the border width for your nodes. Default value: 1.</description>
-            <attributeTypes>
-              <attributeType name="Integer" />
-            </attributeTypes>
+              <caption>Node border width</caption>
+              <category>Nodes</category>
+              <description>Select the attribute you want to use as the border width for your nodes. Default value: 1.</description>
+              <attributeTypes>
+                <attributeType name="Integer" />
+              </attributeTypes>
         </property>
+
+        <property key="nodeImage" type="image">
+          <caption>Image</caption>
+          <category>Nodes</category>
+          <description>Select an image to add.</description>
+         </property>
 
 
         <!--####### Edges tab #######-->
         <property key="edgeEntity" type="entity" isPath="no" required="true">
             <caption>Edge*</caption>
             <category>Edges</category>
-            <description>Select the entity you want to use for your edges</description>
+            <description>Select the entity you want to use for your edges.</description>
         </property>
 
         <property key="edgeAssociationFrom" type="entityConstraint" entityProperty='edgeEntity' required="true">

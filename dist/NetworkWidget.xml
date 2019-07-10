@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="com.mendix.widget.custom.<%= NAME %>" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-    <name><%= FRIENDLY_NAME %></name>
-    <description><%= WIDGET_DESC %></description>
+<widget id="com.mendix.widget.custom.NetworkWidget" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>NetworkWidget</name>
+    <description>A custom widget to create vis.js network diagrams</description>
     <icon></icon>
     <properties>
 
