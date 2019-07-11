@@ -76,20 +76,28 @@ class NetworkComponent extends Component {
 
             if(this.props.nodeLabel === "")         { nodeLabelVar = ""; }
             else                                    { nodeLabelVar = node.jsonData.attributes[this.props.nodeLabel].value; }
+
             if(this.props.nodeShape === "")         { nodeShapeVar = ""; }
             else                                    { nodeShapeVar = node.jsonData.attributes[this.props.nodeShape].value; }
+
             if(this.props.nodeColor === "")         { nodeColorVar = "_6F9FD8"; }
             else                                    { nodeColorVar = node.jsonData.attributes[this.props.nodeColor].value; }
+
             if(this.props.nodeFontColor === "")     { nodeFontColorVar = ""; }
             else                                    { nodeFontColorVar = node.jsonData.attributes[this.props.nodeFontColor].value; }
+
             if(this.props.nodeFontSize === "")      { nodeFontSizeVar = 15; }
             else                                    { nodeFontSizeVar = parseInt(node.jsonData.attributes[this.props.nodeFontSize].value); }
+
             if(this.props.nodeMass === "")          { nodeMassVar = 1; }
             else                                    { nodeMassVar = node.jsonData.attributes[this.props.nodeMass].value; }
+
             if(this.props.nodeBorderWidth === "")   { nodeBorderWidthVar = 1; }
             else                                    { nodeBorderWidthVar = node.jsonData.attributes[this.props.nodeBorderWidth].value; }
+
             if(this.props.nodeImage === "")         { nodeImageVar = ''; }
             else                                    { nodeImageVar = node.jsonData.attributes[this.props.nodeImage].value; }
+
             if(this.props.nodeSize === "")          { nodeSizeVar = 30; }
             else                                    { nodeSizeVar = parseInt(node.jsonData.attributes[this.props.nodeSize].value); }
 
@@ -150,7 +158,7 @@ class NetworkComponent extends Component {
           }
       });
 
-      this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
+        this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
 
       if (this.props.messageMicroflow) {
         this.network.on('click', (params) => {

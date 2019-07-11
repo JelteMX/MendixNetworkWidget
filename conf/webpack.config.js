@@ -50,6 +50,10 @@ module.exports = {
   target: "web",
   devtool: isDev ? "eval-source-map" : false,
   watch: isDev,
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 500,
+  },
   entry: paths.srcEntry,
   output: {
     path: isDev ? paths.buildDir : paths.distDir,
