@@ -1,7 +1,7 @@
 import React, { Component, createElement, createRef } from "react";
 import classNames from "classnames";
 import { DataSet, Network } from "../../node_modules/vis";
-import '../../node_modules/vis/dist/vis.css';    
+import '../../node_modules/vis/dist/vis.css';
 
 class NetworkComponent extends Component {
 
@@ -26,7 +26,7 @@ class NetworkComponent extends Component {
     });
   }
 
-  setNodes(nodes){    
+  setNodes(nodes){
     this.setState(() => {
         return {nodes: nodes};
       });
@@ -38,7 +38,7 @@ class NetworkComponent extends Component {
       });
   }
 
-  componentDidUpdate(){ 
+  componentDidUpdate(){
     const options = {
         width: "" + this.props.width,
         height: "" + this.props.height,
@@ -54,7 +54,7 @@ class NetworkComponent extends Component {
             },
             solver: "repulsion",
             repulsion: {
-                centralGravity : 0  
+                centralGravity : 0
             }
         }
     };
@@ -73,8 +73,6 @@ class NetworkComponent extends Component {
             var nodeSizeVar;
 
             //Setting default values in case the user did not select an attribute
-
-            //var nodeLabelVar = (this.props.nodeLabel === '') ? '' : node.jsonData.attributes[this.props.nodeLabel].value;
 
             if(this.props.nodeLabel === "")         { nodeLabelVar = ""; }
             else                                    { nodeLabelVar = node.jsonData.attributes[this.props.nodeLabel].value; }
@@ -96,62 +94,85 @@ class NetworkComponent extends Component {
             else                                    { nodeSizeVar = parseInt(node.jsonData.attributes[this.props.nodeSize].value); }
 
             return {
-               id : node.jsonData.guid, 
-               label : nodeLabelVar,  
+               id : node.jsonData.guid,
+               label : nodeLabelVar,
                shape: nodeShapeVar,
                color: "#" + nodeColorVar.slice(1) ,
                font: {
                    color: nodeFontColorVar,
                    size: nodeFontSizeVar,
-                   face: 'open sans'  
+                   face: 'open sans'
                },
                mass: nodeMassVar,
                borderWidth: nodeBorderWidthVar,
                image: nodeImageVar,
                size: nodeSizeVar
-            }      
+            }
        });
 
-        const dataEdges = this.state.edges.map((edge, index) =>{            //still needs to be refactored
-            var edgeLabelVar;
-            var edgeLengthVar;
-            var edgeTypeToVar;
-            var edgeFontSize;
+      const dataEdges = this.state.edges.map((edge, index) =>{            //still needs to be refactored
+          var edgeLabelVar;
+          var edgeLengthVar;
+          var edgeTypeToVar;
+          var edgeFontSize;
 
-            if(this.props.edgeLabel === "")         { edgeLabelVar = ""; }
-            else                                    { edgeLabelVar = edge.jsonData.attributes[this.props.edgeLabel].value; }
-            if(this.props.edgeLength === "")         { edgeLengthVar = "150"; }
-            else                                    { edgeLengthVar = edge.jsonData.attributes[this.props.edgeLength].value; }
-            if(this.props.edgeTypeTo === "")         { edgeTypeToVar = "arrow"; }
-            else                                    { edgeTypeToVar = edge.jsonData.attributes[this.props.edgeTypeTo].value; }
-            if(this.props.edgeFontSize === "")         { edgeFontSize = 12; }
-            else                                    { edgeFontSize = parseInt(edge.jsonData.attributes[this.props.edgeFontSize].value); }
+          if(this.props.edgeLabel === "")         { edgeLabelVar = ""; }
+          else                                    { edgeLabelVar = edge.jsonData.attributes[this.props.edgeLabel].value; }
+          if(this.props.edgeLength === "")         { edgeLengthVar = "150"; }
+          else                                    { edgeLengthVar = edge.jsonData.attributes[this.props.edgeLength].value; }
+          if(this.props.edgeTypeTo === "")         { edgeTypeToVar = "arrow"; }
+          else                                    { edgeTypeToVar = edge.jsonData.attributes[this.props.edgeTypeTo].value; }
+          if(this.props.edgeFontSize === "")         { edgeFontSize = 12; }
+          else                                    { edgeFontSize = parseInt(edge.jsonData.attributes[this.props.edgeFontSize].value); }
 
-            const from = this.props.edgeAssociationFrom.slice(1,this.props.edgeAssociationFrom.indexOf("/"));
-            const to = this.props.edgeAssociationTo.slice(1,this.props.edgeAssociationTo.indexOf("/"));
+          const from = this.props.edgeAssociationFrom.slice(1,this.props.edgeAssociationFrom.indexOf("/"));
+          const to = this.props.edgeAssociationTo.slice(1,this.props.edgeAssociationTo.indexOf("/"));
 
-            return{
-                from: edge.jsonData.attributes[from].value,
-                to: edge.jsonData.attributes[to].value,
-                arrows: {
-                    to:     {enabled: true, scaleFactor:1, type: edgeTypeToVar}
-                },
-                length: edgeLengthVar,
-                label: edgeLabelVar,
-                font: {
-                  size: edgeFontSize,
+          return{
+              from: edge.jsonData.attributes[from].value,
+              to: edge.jsonData.attributes[to].value,
+              arrows: {
+                  to:     {enabled: true, scaleFactor:1, type: edgeTypeToVar}
+              },
+              length: edgeLengthVar,
+              label: edgeLabelVar,
+              font: {
+                size: edgeFontSize,
+                face: 'open sans',
+                background: '#EBECED',
+                bold: {
+                  size: edgeFontSize, // px
                   face: 'open sans',
-                  background: '#EBECED',
-                  bold: {
-                    size: edgeFontSize, // px
-                    face: 'open sans',
-                    vadjust: 0,
-                    mod: 'bold'
-                  },
-                } 
-            }
-        });
-        this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
+                  vadjust: 0,
+                  mod: 'bold'
+                },
+              }
+          }
+      });
+
+      this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
+
+      if (this.props.messageMicroflow) {
+        this.network.on('click', (params) => {
+          if (params.nodes && params.nodes.length > 0) {
+            const guids = params.nodes;
+            mx.data.action({
+              params: {
+                actionname: this.props.messageMicroflow,
+                applyto: "selection",
+                guids
+              },
+              origin: this.mxform,
+              callback: () => {
+                console.log('Microflow ' + this.props.messageMicroflow + ' executed with guids: ', guids);
+              },
+              error: err => {
+                mx.ui.error("Something went wrong when executing microflow");
+              }
+            })
+          }
+        })
+      }
 
       //   this.network.on("stabilizationIterationsDone", function () {
       //     network.setOptions( { physics: false } );
