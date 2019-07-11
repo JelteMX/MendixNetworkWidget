@@ -69,11 +69,13 @@ class NetworkComponent extends Component {
             var nodeFontSizeVar; //default 15
             var nodeMassVar; //default 1
             var nodeBorderWidthVar; //default 1
-            var nodeImage;
-
-            console.log(node.jsonData);
+            var nodeImageVar;
+            var nodeSizeVar;
 
             //Setting default values in case the user did not select an attribute
+
+            //var nodeLabelVar = (this.props.nodeLabel === '') ? '' : node.jsonData.attributes[this.props.nodeLabel].value;
+
             if(this.props.nodeLabel === "")         { nodeLabelVar = ""; }
             else                                    { nodeLabelVar = node.jsonData.attributes[this.props.nodeLabel].value; }
             if(this.props.nodeShape === "")         { nodeShapeVar = ""; }
@@ -88,24 +90,10 @@ class NetworkComponent extends Component {
             else                                    { nodeMassVar = node.jsonData.attributes[this.props.nodeMass].value; }
             if(this.props.nodeBorderWidth === "")   { nodeBorderWidthVar = 1; }
             else                                    { nodeBorderWidthVar = node.jsonData.attributes[this.props.nodeBorderWidth].value; }
-            if(this.props.nodeImage === "")         { nodeImage = ''; }
-            else                                    { nodeImage = node.jsonData.attributes[this.props.nodeImage].value; }
-
-            console.log({
-              id : node.jsonData.guid, 
-              label : nodeLabelVar,  
-              shape: nodeShapeVar,
-              color: "#" + nodeColorVar.slice(1) ,
-              font: {
-                  color: nodeFontColorVar,
-                  size: nodeFontSizeVar  
-              },
-              size: nodeFontSizeVar,
-              mass: nodeMassVar,
-              borderWidth: nodeBorderWidthVar,
-              image: nodeImage,
-           }  );
-
+            if(this.props.nodeImage === "")         { nodeImageVar = ''; }
+            else                                    { nodeImageVar = node.jsonData.attributes[this.props.nodeImage].value; }
+            if(this.props.nodeSize === "")          { nodeSizeVar = 30; }
+            else                                    { nodeSizeVar = parseInt(node.jsonData.attributes[this.props.nodeSize].value); }
 
             return {
                id : node.jsonData.guid, 
@@ -114,12 +102,13 @@ class NetworkComponent extends Component {
                color: "#" + nodeColorVar.slice(1) ,
                font: {
                    color: nodeFontColorVar,
-                   size: nodeFontSizeVar  
+                   size: nodeFontSizeVar,
+                   face: 'open sans'  
                },
-               size: nodeFontSizeVar,
                mass: nodeMassVar,
                borderWidth: nodeBorderWidthVar,
-               image: nodeImage,
+               image: nodeImageVar,
+               size: nodeSizeVar
             }      
        });
 
@@ -127,6 +116,7 @@ class NetworkComponent extends Component {
             var edgeLabelVar;
             var edgeLengthVar;
             var edgeTypeToVar;
+            var edgeFontSize;
 
             if(this.props.edgeLabel === "")         { edgeLabelVar = ""; }
             else                                    { edgeLabelVar = edge.jsonData.attributes[this.props.edgeLabel].value; }
@@ -134,6 +124,8 @@ class NetworkComponent extends Component {
             else                                    { edgeLengthVar = edge.jsonData.attributes[this.props.edgeLength].value; }
             if(this.props.edgeTypeTo === "")         { edgeTypeToVar = "arrow"; }
             else                                    { edgeTypeToVar = edge.jsonData.attributes[this.props.edgeTypeTo].value; }
+            if(this.props.edgeFontSize === "")         { edgeFontSize = 12; }
+            else                                    { edgeFontSize = parseInt(edge.jsonData.attributes[this.props.edgeFontSize].value); }
 
             const from = this.props.edgeAssociationFrom.slice(1,this.props.edgeAssociationFrom.indexOf("/"));
             const to = this.props.edgeAssociationTo.slice(1,this.props.edgeAssociationTo.indexOf("/"));
@@ -145,13 +137,24 @@ class NetworkComponent extends Component {
                     to:     {enabled: true, scaleFactor:1, type: edgeTypeToVar}
                 },
                 length: edgeLengthVar,
-                label: edgeLabelVar 
+                label: edgeLabelVar,
+                font: {
+                  size: edgeFontSize,
+                  face: 'open sans',
+                  background: '#EBECED',
+                  bold: {
+                    size: edgeFontSize, // px
+                    face: 'open sans',
+                    vadjust: 0,
+                    mod: 'bold'
+                  },
+                } 
             }
         });
         this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
 
-        // this.network.on("stabilizationIterationsDone", function () {
-        //   network.setOptions( { physics: false } );
+      //   this.network.on("stabilizationIterationsDone", function () {
+      //     network.setOptions( { physics: false } );
       // });
     }
   }

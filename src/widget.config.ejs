@@ -95,6 +95,15 @@
             <returnType type="String" />
          </property>
 
+         <property key="nodeSize" type="attribute" entityProperty="nodeEntity" required="false">
+            <caption>Node size</caption>
+            <category>Nodes</category>
+            <description>Select the attribute you want to use as the size for your nodes. Default value: 30.</description>
+            <attributeTypes>
+              <attributeType name="Integer" />
+            </attributeTypes>
+          </property>
+
 
         <!--####### Edges tab #######-->
         <property key="edgeEntity" type="entity" isPath="no" required="true">
@@ -145,6 +154,15 @@
               <attributeType name="Enum" />
             </attributeTypes>
         </property>
+
+        <property key="edgeFontSize" type="attribute" entityProperty="edgeEntity" required="false">
+          <caption>Edge font size</caption>
+          <category>Edges</category>
+          <description>Select the attribute you want to use as the font size for your edge. Default value: "12"</description>
+          <attributeTypes>
+            <attributeType name="Integer" />
+          </attributeTypes>
+      </property>
 
         <!--####### Configuration tab #######-->
         <property key="width" type="integer" defaultValue="1000" required="true">
