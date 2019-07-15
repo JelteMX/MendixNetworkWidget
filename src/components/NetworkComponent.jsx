@@ -1,7 +1,11 @@
 import React, { Component, createElement, createRef } from "react";
-import classNames from "classnames";
 import { DataSet, Network } from "../../node_modules/vis";
 import '../../node_modules/vis/dist/vis.css';
+
+import * as classNames from "classnames";
+
+import ReactResizeDetector from "react-resize-detector";
+import {SizeContainer} from './SizeContainer';
 
 class NetworkComponent extends Component {
 
@@ -9,9 +13,12 @@ class NetworkComponent extends Component {
     super(props);
     this.network = {};
     this.appRef = createRef();
+    this.resizeTimer = null;
     this.state = {nodes:[], edges:[], nodesId:[]};
     this.setNodes = this.setNodes.bind(this);
     this.setEdges = this.setEdges.bind(this);
+    this.setSize = this.setSize.bind(this);
+    this.onResize = this.onResize.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +43,26 @@ class NetworkComponent extends Component {
       this.setState(() =>{
           return{edges: edges};
       });
+  }
+
+  setSize() {
+    if (this.network && this.network.setSize) {
+      const parent = this.network.canvas.body.container.parentElement;
+      if (parent && parent.offsetWidth && parent.offsetHeight) {
+        this.network.setSize(parent.offsetWidth + "px", parent.offsetHeight + "px");
+        this.network.redraw();
+      }
+    }
+  }
+
+  onResize(width, height) {
+    if (this.resizeTimer !== null) {
+      clearTimeout(this.resizeTimer);
+    }
+    this.resizeTimer = setTimeout(() => {
+      this.setSize(width, height);
+      this.resizeTimer = null;
+    }, 500);
   }
 
   componentDidUpdate(){
@@ -158,7 +185,7 @@ class NetworkComponent extends Component {
           }
       });
 
-        this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
+      this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
 
       if (this.props.messageMicroflow) {
         this.network.on('click', (params) => {
@@ -181,17 +208,18 @@ class NetworkComponent extends Component {
           }
         })
       }
-
-      //   this.network.on("stabilizationIterationsDone", function () {
-      //     network.setOptions( { physics: false } );
-      // });
     }
   }
 
   render() {
-    return(
-      <div ref = {this.appRef}> {this.state.nodes.length === 0 && "loading"}</div>
-    );
+    const { className } = this.props;
+    return <SizeContainer
+      {...this.props}
+      className={classNames("widget-network-visualizer", className)}
+    >
+      <div ref={this.appRef}> {this.state.nodes.length === 0 && "loading"}</div>
+      <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
+    </SizeContainer>
   }
 }
 
