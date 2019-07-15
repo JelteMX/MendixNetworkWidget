@@ -66,9 +66,12 @@ class NetworkComponent extends Component {
   }
 
   componentDidUpdate(){
+
     const options = {
         width: "" + this.props.width,
         height: "" + this.props.height,
+        interaction: { hover:true },
+
         physics: {
           enabled: true,
           minVelocity: 0.75,
@@ -187,6 +190,21 @@ class NetworkComponent extends Component {
 
       this.network = new Network(this.appRef.current, {nodes : dataNodes, edges :dataEdges}, options);
 
+      this.network.on("selectNode", (params) => {
+        var selectedNodeId = params.nodes[0];
+        this.network.body.nodes[selectedNodeId].setOptions({ size: 65 });
+      });
+
+      this.network.on("dragStart", (params) => {
+        var selectedNodeId = params.nodes[0];
+        this.network.body.nodes[selectedNodeId].setOptions({ size: 65 });
+      });
+
+      this.network.on("deselectNode", (params) => {
+        var deselectedNodeId = params.previousSelection.nodes[0];
+        this.network.body.nodes[deselectedNodeId].setOptions({ size: 40 });
+      });
+
       if (this.props.messageMicroflow) {
         this.network.on('click', (params) => {
           if (params.nodes && params.nodes.length > 0) {
@@ -207,7 +225,28 @@ class NetworkComponent extends Component {
             })
           }
         })
+
+        this.network.on('dragStart', (params) => {
+          if (params.nodes && params.nodes.length > 0) {
+            const guids = params.nodes;
+            mx.data.action({
+              params: {
+                actionname: this.props.messageMicroflow,
+                applyto: "selection",
+                guids
+              },
+              origin: this.mxform,
+              callback: () => {
+                console.log('Microflow ' + this.props.messageMicroflow + ' executed with guids: ', guids);
+              },
+              error: err => {
+                mx.ui.error("Something went wrong when executing microflow");
+              }
+            })
+          }
+        })
       }
+
     }
   }
 
@@ -221,6 +260,7 @@ class NetworkComponent extends Component {
       <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
     </SizeContainer>
   }
+
 }
 
 export default NetworkComponent;
