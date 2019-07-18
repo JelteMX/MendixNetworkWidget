@@ -17,7 +17,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "react-resize-detector": "^4.2.0",
-    "vis": "^4.21.0"
+    "vis-network": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

@@ -1,6 +1,6 @@
-import React, { Component, createElement, createRef } from "react";
-import { DataSet, Network } from "../../node_modules/vis";
-import '../../node_modules/vis/dist/vis.css';
+import React, { Component, createRef } from "react";
+import { Network } from 'vis-network';
+import 'vis-network/dist/vis-network.min.css';
 
 import * as classNames from "classnames";
 
